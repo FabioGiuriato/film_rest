@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Client Film REST</title>
+
+</head>
+<body>
+
+<h1> Client Film REST</h1>
+
+
+<div class="sezione">
+    <h2>GET — Lista tutti i film</h2>
+    <button onclick="getAll()">▶ GET /films</button>
+    <pre id="risposta-get"></pre>
+</div>
+
+
+<div class="sezione">
+    <h2>GET — Cerca film per ID</h2>
+    <input type="number" id="id-cerca" placeholder="ID film" value="1" style="width:80px">
+    <button onclick="getById()">▶ GET /films/{id}</button>
+    <pre id="risposta-get-id"></pre>
+</div>
+
+
+<div class="sezione">
+    <h2>POST — Aggiungi un film</h2>
+    <input id="titolo"  placeholder="Titolo"  value="The Matrix">
+    <input id="regista" placeholder="Regista" value="Wachowski">
+    <input id="anno"    placeholder="Anno" type="number" value="1999" style="width:80px">
+    <br>
+    <button onclick="postFilm()">▶ POST /films</button>
+    <pre id="risposta-post"></pre>
+</div>
+
+
+<div class="sezione">
+    <h2>DELETE — Elimina un film</h2>
+    <input type="number" id="id-elimina" placeholder="ID film" value="1" style="width:80px">
+    <button class="red" onclick="deleteFilm()">▶ DELETE /films/{id}</button>
+    <pre id="risposta-delete"></pre>
+</div>
+
+<script>
+    const BASE = "http://localhost:8080";
+
+    async function getAll() {
+        const r = await fetch(`${BASE}/films`);
+        const data = await r.json();
+        document.getElementById("risposta-get").textContent = JSON.stringify(data, null, 2);
+    }
+
+    async function getById() {
+        const id = document.getElementById("id-cerca").value;
+        const r = await fetch(`${BASE}/films/${id}`);
+        const data = await r.json();
+        document.getElementById("risposta-get-id").textContent = JSON.stringify(data, null, 2);
+    }
+
+    async function postFilm() {
+        const film = {
+            titolo:  document.getElementById("titolo").value,
+            regista: document.getElementById("regista").value,
+            anno:    parseInt(document.getElementById("anno").value)
+        };
+        const r = await fetch(`${BASE}/films`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(film)
+        });
+        const data = await r.json();
+        document.getElementById("risposta-post").textContent = JSON.stringify(data, null, 2);
+    }
+
+    async function deleteFilm() {
+        const id = document.getElementById("id-elimina").value;
+        const r = await fetch(`${BASE}/films/${id}`, { method: "DELETE" });
+        const data = await r.text();
+        document.getElementById("risposta-delete").textContent = data;
+    }
+</script>
+
+</body>
+</html>
