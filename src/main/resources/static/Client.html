@@ -3,14 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <title>Client Film REST</title>
-
+    <style>
+        .sezione {
+          display: inline-block;
+          margin-right: 50px;
+}
+    </style>
 </head>
 <body>
 
 <h1> Client Film REST</h1>
 
 
-<div class="sezione">
+<div class="sezione" style >
     <h2>GET — Lista tutti i film</h2>
     <button onclick="getAll()">▶ GET /films</button>
     <pre id="risposta-get"></pre>
@@ -39,7 +44,7 @@
 <div class="sezione">
     <h2>DELETE — Elimina un film</h2>
     <input type="number" id="id-elimina" placeholder="ID film" value="1" style="width:80px">
-    <button class="red" onclick="deleteFilm()">▶ DELETE /films/{id}</button>
+    <button onclick="deleteFilm()">▶ DELETE /films/{id}</button>
     <pre id="risposta-delete"></pre>
 </div>
 
